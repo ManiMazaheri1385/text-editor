@@ -14,6 +14,8 @@ public class TextEditor extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         textArea = new JTextArea();
+        textArea.setFont(new Font("SansSerif", Font.BOLD, 17));
+
         JScrollPane scrollPane = new JScrollPane(textArea);
 
         setJMenuBar(createMenuBar());

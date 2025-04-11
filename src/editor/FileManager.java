@@ -60,6 +60,18 @@ public class FileManager {
     }
 
     public static void newFile(TextEditor textEditor, JTextArea textArea) {
-        //TODO
+        int confirm = JOptionPane.showConfirmDialog(textEditor, "Do you want to save current file before creating a new one?", "Confirm", JOptionPane.YES_NO_CANCEL_OPTION);
+
+        if (confirm == JOptionPane.CANCEL_OPTION) {
+            return;
+        }
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            saveFile(textEditor, textArea);
+        }
+
+        textArea.setText("");
+        textEditor.currentFile = null;
     }
+
 }

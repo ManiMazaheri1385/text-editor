@@ -32,13 +32,31 @@ public class FileManager {
     public static void saveFile(TextEditor textEditor, JTextArea textArea) {
         if (textEditor.currentFile == null){
             JFileChooser fileChooser = new JFileChooser();
+
             if (fileChooser.showSaveDialog(textEditor) == JFileChooser.APPROVE_OPTION) {
-                //TODO
+                File file = fileChooser.getSelectedFile();
+                try {
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8));
+                    writer.write(textArea.getText());
+                    writer.close();
+                    textEditor.currentFile = file;
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(textEditor, "Error saving file", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+
+        }
+
+        else {
+            try {
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(textEditor.currentFile), StandardCharsets.UTF_8));
+                writer.write(textArea.getText());
+                writer.close();
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(textEditor, "Error saving file", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
-        else{
-            //TODO
-        }
+
     }
 
     public static void newFile(TextEditor textEditor, JTextArea textArea) {

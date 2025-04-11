@@ -1,13 +1,31 @@
 package editor;
 
 import javax.swing.*;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 public class FileManager {
     public static void openFile(TextEditor textEditor, JTextArea textArea) {
         JFileChooser fileChooser = new JFileChooser();
+
         if (fileChooser.showOpenDialog(textEditor) == JFileChooser.APPROVE_OPTION) {
-            //File file = fileChooser.getSelectedFile();
-            //TODO
+            File file = fileChooser.getSelectedFile();
+            try {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+                    textArea.append(line + "\n");
+                }
+                reader.close();
+                textEditor.currentFile = file;
+
+            } catch (FileNotFoundException e) {
+                JOptionPane.showMessageDialog(textEditor, "File not found", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(textEditor, "Error reading file", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
         }
     }
 
